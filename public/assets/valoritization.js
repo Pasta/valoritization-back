@@ -3,14 +3,13 @@
 
 /* jshint ignore:end */
 
-define('valoritization/adapters/application', ['exports', 'ember-data'], function (exports, DS) {
+define('valoritization/adapters/application', ['exports', 'ember-data', 'valoritization/config/environment'], function (exports, DS, ENV) {
 
   'use strict';
 
   exports['default'] = DS['default'].RESTAdapter.extend({
-    namespace: 'api'
-    //,
-    //host:  'http://localhost:3000'
+    namespace: 'api',
+    host: ENV['default'].APP.host
   });
 
 });
@@ -2074,7 +2073,7 @@ catch(err) {
 if (runningTests) {
   require("valoritization/tests/test-helper");
 } else {
-  require("valoritization/app")["default"].create({"name":"valoritization","version":"0.0.0+756161d1"});
+  require("valoritization/app")["default"].create({"host":"http://localhost:3000","name":"valoritization","version":"0.0.0+756161d1"});
 }
 
 /* jshint ignore:end */
