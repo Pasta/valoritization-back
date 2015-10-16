@@ -2,30 +2,18 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   # GET /tasks
-  # GET /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.where(:matrix_id => params[:matrix_id])
     render json: {:tasks => @tasks}
   end
 
   # GET /tasks/1
-  # GET /tasks/1.json
   def show
     task = Task.find(params[:id])
     render json: task
   end
 
-  # GET /tasks/new
-  def new
-    @task = Task.new
-  end
-
-  # GET /tasks/1/edit
-  def edit
-  end
-
   # POST /tasks
-  # POST /tasks.json
   def create
     @task = Task.new(task_params)
     if @task.save
@@ -33,7 +21,6 @@ class TasksController < ApplicationController
     else
       render json: @task.errors, status: :unprocessable_entity
     end
-
   end
 
   # PATCH/PUT /tasks/1
@@ -45,8 +32,6 @@ class TasksController < ApplicationController
 
     end
   end
-
-
 
   # DELETE /tasks/1
   def destroy
@@ -62,7 +47,7 @@ class TasksController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def task_params
-    params.require(:task).permit(:title, :value, :cost, :description)
+    params.require(:task).permit(:title, :value, :cost, :description, :matrix_id)
   end
 
   def render_task_as_json
