@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :matrices
   end
 
+  get '/1/980190992', to: 'application#index'
   get ':id', to: 'application#index'
 
 end

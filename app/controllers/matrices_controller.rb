@@ -1,27 +1,14 @@
 class MatricesController < ApplicationController
 
+  before_action :set_matrix, only: [:show, :destroy, :update]
 
-  # def new
-  #   @matrix = Matrix.new
-  # end
-  #
-  # def create
-  #   @matrix = Matrix.new(matrix_params)
-  #   if !@matrix.save
-  #     render json: @matrix.errors, status: :unprocessable_entity
-  #   end
-  #   render nothing: true
-  # end
-
-  # API !
   def index
     @matrices = Matrix.all
     render json: {:matrices => @matrices }
   end
 
   def show
-    matrix = Matrix.find(params[:id])
-    render json: {:matrices => matrix.as_json(:include => :tasks, :root => false)}.to_json
+    render json: {:matrices => @matrix.as_json(:include => :tasks, :root => false)}.to_json
   end
 
   def create
@@ -33,11 +20,28 @@ class MatricesController < ApplicationController
     end
   end
 
+  def destroy
+    @matrix.destroy
+    head :no_content
+  end
+
+  def update
+    if @matrix.update(matrix_params)
+      render json: {:matrices => @matrix.as_json(:include => :tasks, :root => false)}.to_json, status: :accepted, location: @matrix
+    else
+      render json: @matrix.errors, status: :unprocessable_entity
+
+    end
+  end
+
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def matrix_params
     params.require(:matrix).permit(:title)
   end
 
+  def set_matrix
+    @matrix = Matrix.find(params[:id])
+  end
 
 end
