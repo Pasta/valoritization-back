@@ -5,10 +5,18 @@ class ApplicationController < ActionController::Base
 
   skip_before_filter  :verify_authenticity_token
 
-  # In case you want to all
-
   def index
-
   end
+
+  def feedback
+    Feedback.new(:json => params).save
+    render json: params, status: :ok
+  end
+
+  private
+  def feedback_params
+    params.permit(:name, :message)
+  end
+
 
 end
