@@ -3,7 +3,7 @@ class MatricesController < ApplicationController
   before_action :set_matrix, only: [:show, :destroy, :update]
 
   def index
-    @matrices = Matrix.all
+    @matrices = Matrix.where(:shared => true)
     render json: {:matrices => @matrices }
   end
 
@@ -37,7 +37,7 @@ class MatricesController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def matrix_params
-    params.require(:matrix).permit(:title)
+    params.require(:matrix).permit(:title, :shared)
   end
 
   def set_matrix

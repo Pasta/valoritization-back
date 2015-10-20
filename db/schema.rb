@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 20151019034233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "uuid-ossp"
 
   create_table "feedbacks", force: :cascade do |t|
     t.string   "json"
@@ -22,10 +23,11 @@ ActiveRecord::Schema.define(version: 20151019034233) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "matrices", force: :cascade do |t|
+  create_table "matrices", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "shared",     default: true
   end
 
   create_table "tasks", force: :cascade do |t|
@@ -35,7 +37,7 @@ ActiveRecord::Schema.define(version: 20151019034233) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.string   "description"
-    t.integer  "matrix_id",   null: false
+    t.uuid     "matrix_id",   null: false
   end
 
   add_foreign_key "tasks", "matrices"
