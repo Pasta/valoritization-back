@@ -3,7 +3,12 @@ class MatricesController < ApplicationController
   before_action :set_matrix, only: [:show, :destroy, :update]
 
   def index
-    @matrices = Matrix.where(:shared => true)
+    if !params[:ids]
+      @matrices = Matrix.where(:shared => true)
+    else
+      @matrices = Matrix.find(params[:ids])
+    end
+
     render json: {:matrices => @matrices }
   end
 
