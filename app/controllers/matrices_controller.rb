@@ -6,7 +6,7 @@ class MatricesController < ApplicationController
     if !params[:ids]
       @matrices = Matrix.where(:shared => true)
     else
-      @matrices = Matrix.find(params[:ids])
+      @matrices = Matrix.where(:id => params[:ids])
     end
 
     render json: {:matrices => @matrices }
